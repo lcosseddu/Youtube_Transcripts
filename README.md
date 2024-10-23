@@ -1,6 +1,6 @@
 # YouTube Transcriptor
 
-YouTube Transcriptor is a Python tool that allows you to extract and save transcripts from YouTube videos. It now includes a web application interface for easier use.
+YouTube Transcriptor is a Python tool that allows you to extract and save transcripts from YouTube videos. It now includes a web application interface with user authentication for easier and more secure use.
 
 ## Features
 
@@ -9,6 +9,9 @@ YouTube Transcriptor is a Python tool that allows you to extract and save transc
 - Format and save transcripts to text files
 - Error handling and logging
 - Web interface for easy transcript retrieval
+- User authentication system
+- Secure password hashing
+- IP address logging for registered users
 
 ## Installation
 
@@ -20,7 +23,7 @@ YouTube Transcriptor is a Python tool that allows you to extract and save transc
 
 2. Install the required dependencies:
    ```
-   pip install youtube_transcript_api flask
+   pip install youtube_transcript_api flask flask-sqlalchemy flask-login
    ```
 
 ## Usage
@@ -38,37 +41,83 @@ You will be prompted to enter:
 
 The transcript will be saved in a file named `transcript.txt` in the same directory.
 
-### Web Interface
+### Web Application
 
-The web application interface is available at `http://localhost:5000`. You can use it to easily retrieve transcripts from YouTube videos.
+To use the web interface:
+
+1. Run the Flask application:
+   ```
+   python YTT_WebApp.py
+   ```
+
+2. Open a web browser and navigate to `http://127.0.0.1:5000/`
+
+3. Register a new account or log in if you already have one
+
+4. Once logged in, enter the YouTube video URL and desired language code in the form
+
+5. Click "Get Transcript" to download the transcript as a text file
 
 ## Module Documentation
 
-### Functions
+### Functions in youtube_transcriptor.py
 
-#### `extract_video_id(url: str) -> Optional[str]`
-Extracts the video ID from a YouTube URL.
+```python:youtube_transcriptor.py
+startLine: 14
+endLine: 35
+```
 
-#### `get_transcript(video_id: str, language: str = 'en') -> list[dict]`
-Fetches the transcript for a given video ID in the specified language.
+```python:youtube_transcriptor.py
+startLine: 38
+endLine: 56
+```
 
-#### `format_transcript(transcript: list[dict]) -> str`
-Formats the transcript into a single string.
+```python:youtube_transcriptor.py
+startLine: 59
+endLine: 69
+```
 
-#### `save_transcript(formatted_transcript: str, output_file: str)`
-Saves the formatted transcript to a file.
+```python:youtube_transcriptor.py
+startLine: 72
+endLine: 89
+```
 
-#### `get_and_save_transcript(video_url: str, output_file: str = 'transcript.txt', language: str = 'en')`
-Main function that combines all steps to fetch and save a transcript.
+```python:youtube_transcriptor.py
+startLine: 92
+endLine: 120
+```
+
+### User Model in models.py
+
+```python:models.py
+startLine: 8
+endLine: 23
+```
+
+## Web Application Structure
+
+The web application (`YTT_WebApp.py`) includes the following routes:
+- `/`: Main page for transcript retrieval (requires authentication)
+- `/register`: User registration page
+- `/login`: User login page
+- `/logout`: User logout functionality
+
+## Security Features
+
+- Passwords are securely hashed using `werkzeug.security`
+- User authentication is managed using Flask-Login
+- IP addresses are logged for each registered user
+- SQLite database is used for user management
 
 ## Error Handling
 
-The script includes error handling for common issues such as:
+The application includes error handling for:
 - Invalid YouTube URLs
 - Unavailable transcripts
 - File writing errors
+- User registration and login issues
 
-Errors are logged using Python's logging module.
+Errors are logged using Python's logging module and displayed in the web interface.
 
 ## Contributing
 
