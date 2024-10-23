@@ -1,6 +1,6 @@
 # YouTube Transcriptor
 
-YouTube Transcriptor is a Python tool that allows you to extract and save transcripts from YouTube videos.
+YouTube Transcriptor is a Python tool that allows you to extract and save transcripts from YouTube videos. It now includes a web application interface for easier use.
 
 ## Features
 
@@ -8,6 +8,7 @@ YouTube Transcriptor is a Python tool that allows you to extract and save transc
 - Fetch transcripts in various languages
 - Format and save transcripts to text files
 - Error handling and logging
+- Web interface for easy transcript retrieval
 
 ## Installation
 
@@ -19,10 +20,12 @@ YouTube Transcriptor is a Python tool that allows you to extract and save transc
 
 2. Install the required dependencies:
    ```
-   pip install youtube_transcript_api
+   pip install youtube_transcript_api flask
    ```
 
 ## Usage
+
+### Command Line Interface
 
 Run the script from the command line:
 
@@ -34,6 +37,10 @@ You will be prompted to enter:
 2. The desired language code for the transcript (e.g., 'en' for English, 'it' for Italian)
 
 The transcript will be saved in a file named `transcript.txt` in the same directory.
+
+### Web Interface
+
+The web application interface is available at `http://localhost:5000`. You can use it to easily retrieve transcripts from YouTube videos.
 
 ## Module Documentation
 

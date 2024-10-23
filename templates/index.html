@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Transcriptor</title>
+</head>
+<body>
+    <h1>YouTube Transcriptor</h1>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form method="POST">
+        <label for="video_url">YouTube Video URL:</label><br>
+        <input type="text" id="video_url" name="video_url" required><br>
+        <label for="language">Language Code:</label><br>
+        <input type="text" id="language" name="language" value="en"><br>
+        <input type="submit" value="Get Transcript">
+    </form>
+</body>
+</html>
