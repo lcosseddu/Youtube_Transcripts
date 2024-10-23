@@ -10,6 +10,7 @@
     {% if error %}
         <p style="color: red;">{{ error }}</p>
     {% endif %}
+    <p>Welcome, {{ current_user.username }}! <a href="{{ url_for('logout') }}">Logout</a></p>
     <form method="POST">
         <label for="video_url">YouTube Video URL:</label><br>
         <input type="text" id="video_url" name="video_url" required><br>
