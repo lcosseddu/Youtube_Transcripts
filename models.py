@@ -11,6 +11,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(128))
     ip_address = db.Column(db.String(45))
+    first_name = db.Column(db.String(50), nullable=False)  # New field
+    last_name = db.Column(db.String(50), nullable=False)  # New field
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password, method='pbkdf2:sha256')

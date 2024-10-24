@@ -172,3 +172,10 @@ h1 {
         width: 100%;
     }
 }
+
+.welcome-message {
+    text-align: right;
+    margin-top: 0.5rem;
+    color: var(--secondary-color);
+    font-weight: bold;
+}

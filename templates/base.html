@@ -11,7 +11,7 @@
     <header class="header">
         <div class="container">
             <nav class="nav">
-                <a href="{{ url_for('index') }}" class="nav__logo">Transcribe YouTube videos with Ease</a>
+                <a href="{{ url_for('index') }}" class="nav__logo">YouTube Transcriptor</a>
                 <ul class="nav__list">
                     {% if current_user.is_authenticated %}
                         <li class="nav__item"><a href="{{ url_for('index') }}" class="nav__link">Home</a></li>
@@ -22,6 +22,9 @@
                     {% endif %}
                 </ul>
             </nav>
+            {% if current_user.is_authenticated %}
+                <p class="welcome-message">{{ welcome_message }}</p>
+            {% endif %}
         </div>
     </header>
     <main class="main">
