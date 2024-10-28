@@ -97,6 +97,10 @@ def get_and_save_transcript(video_url: str, output_file: str = 'transcript.txt',
         video_url (str): The YouTube video URL.
         output_file (str): The path to the output file.
         language (str): The language code for the desired transcript.
+    
+    Raises:
+        ValueError: If the video URL is invalid or the video ID cannot be extracted.
+        Exception: If the transcript cannot be retrieved or saved.
     """
     try:
         # Extract the video ID from the URL
@@ -115,9 +119,12 @@ def get_and_save_transcript(video_url: str, output_file: str = 'transcript.txt',
         # Log a preview of the transcript
         logger.info("\nPreview of the transcript:")
         logger.info(formatted_transcript[:200] + "...")
+    except ValueError as ve:
+        logger.error(f"ValueError: {ve}")
+        raise  # Re-raise the exception to be caught in the calling function
     except Exception as e:
-        # Log any errors that occur during the process
         logger.error(f"An error occurred: {e}")
+        raise  # Re-raise the exception to be caught in the calling function
 
 # Esempio di utilizzo
 if __name__ == "__main__":

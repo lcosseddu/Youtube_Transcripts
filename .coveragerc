@@ -1,14 +1,11 @@
 [run]
 source = .
-
 [report]
 exclude_lines =
-    pragma: no cover
-    def __repr__
-    if self.debug:
-    if __name__ == .__main__.:
-    raise NotImplementedError
-    pass
-    except ImportError:
-    def main
-
+    pragma: no cover # type: ignore
+    def __repr__: # type: ignore
+    if self.debug: # type: ignore
+        if __name__ == "__main__": # type: ignore
+            raise NotImplementedError # type: ignore
+        except ImportError: # type: ignore
+        pass
