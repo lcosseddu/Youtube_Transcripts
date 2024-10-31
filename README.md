@@ -32,10 +32,10 @@ YouTube Transcriptor is a Python-based web application that allows users to extr
 
 1. Run the Flask application:
    ```
-   python YTT_WebApp.py
+   gunicorn -w 4 -b 0.0.0.0:8000 YTT_WebApp:app
    ```
 
-2. Open a web browser and navigate to `http://127.0.0.1:5000/`
+2. Open a web browser and navigate to `http://127.0.0.1:8000/`
 
 3. Register a new account or log in if you already have one
 

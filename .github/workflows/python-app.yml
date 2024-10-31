@@ -1,40 +1,73 @@
-name: Python application
+name: Python application  # Name of the workflow
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on:  # Define the events that trigger the workflow
+  push:  # Trigger on push events
+    branches: [ main ]  # Only for the main branch
+  pull_request:  # Trigger on pull request events
+    branches: [ main ]  # Only for the main branch
 
-jobs:
-  build:
+jobs:  # Define the jobs that will run in this workflow
+  build:  # Name of the job
+    runs-on: ubuntu-latest  # Specify the environment to run the job
 
-    runs-on: ubuntu-latest
+    strategy:  # Define a strategy for running the job
+      matrix:  # Use a matrix strategy to run the job with different configurations
+        python-version: [3.8, 3.9, 3.10]  # Test against multiple Python versions
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8 pytest pytest-cov
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
-      run: |
-        pytest --cov=./ --cov-report=xml
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./coverage.xml
-        flags: unittests
+    steps:  # Define the steps to be executed in the job
+    - uses: actions/checkout@v2  # Check out the repository code
+    - name: Set up Python  # Step to set up Python
+      uses: actions/setup-python@v2  # Use the setup-python action
+      with:  # Provide inputs to the action
+        python-version: ${{ matrix.python-version }}  # Use the Python version from the matrix
+
+    - name: Cache dependencies  # Step to cache pip dependencies
+      uses: actions/cache@v2  # Use the cache action
+      with:  # Provide inputs to the action
+        path: ~/.cache/pip  # Path to cache pip dependencies
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}  # Unique key for the cache based on OS and requirements file
+        restore-keys: |  # Keys to restore the cache if the primary key is not found
+          ${{ runner.os }}-pip-  # Fallback key based on OS
+
+    - name: Install dependencies  # Step to install project dependencies
+      run: |  # Run the following commands in a shell to: Upgrade pip to the latest version, install linting, testing, and security tools, and install additional dependencies from requirements.txt if it exists
+        python -m pip install --upgrade pip   
+        pip install flake8 pytest pytest-cov mypy bandit 
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi  
+
+    - name: Lint with flake8  # Step to lint the code with flake8
+      run: |  # Run the following commands in a shell to: Lint for specific error codes, show source, and show statistics; Lint with warnings for complexity and line length
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics  
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics 
+
+    - name: Type check with mypy  # Step to perform type checking with mypy
+      run: mypy .  # Run mypy on the current directory
+
+    - name: Security check with bandit  # Step to perform security checks with bandit
+      run: bandit -r .  # Run bandit recursively on the current directory
+
+    - name: Run database migrations  # Step to run database migrations
+      run: |  # Run the following commands in a shell to upgrade the database schema using Flask-Migrate
+        flask db upgrade  
+
+    - name: Test with pytest  # Step to run tests with pytest
+      run: |  # Run the following commands in a shell to run tests and generate a coverage report in XML format
+        pytest --cov=./ --cov-report=xml  
+
+    - name: Upload coverage to Codecov  # Step to upload coverage reports to Codecov
+      uses: codecov/codecov-action@v1  # Use the Codecov action
+      with:  # Provide inputs to the action
+        token: ${{ secrets.CODECOV_TOKEN }}  # Token for authenticating with Codecov
+        file: ./coverage.xml  # Path to the coverage report file
+        flags: unittests  # Flags to categorize the coverage report
+
+    - name: Notify on failure  # Step to notify the team on build failure
+      if: failure()  # Only run this step if the previous steps failed
+      run: |  # Run the following commands in a shell
+        echo "Build failed! Notify the team via Slack or email."  
+        
+      #To Be Completed  
+      # Print a failure message
+      # Add your notification command here  
+      # Placeholder for adding actual notification commands
 
