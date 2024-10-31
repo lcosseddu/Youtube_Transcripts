@@ -30,10 +30,9 @@ jobs:  # Define the jobs that will run in this workflow
           ${{ runner.os }}-pip-  # Fallback key based on OS
 
     - name: Install dependencies  # Step to install project dependencies
-      run: |  # Run the following commands in a shell to: Upgrade pip and setuptools, install linting, testing, and security tools, and install additional dependencies from requirements.txt if it exists
+      run: |  # Run the following commands in a shell to: Upgrade pip and setuptools, install dependencies from requirements.txt
         python -m pip install --upgrade pip setuptools  
-        pip install flake8 pytest pytest-cov mypy bandit  
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi  
+        pip install -r requirements.txt  
 
     - name: Lint with flake8  # Step to lint the code with flake8
       run: |  # Run the following commands in a shell to: Lint for specific error codes, show source, and show statistics; Lint with warnings for complexity and line length
