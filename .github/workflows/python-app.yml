@@ -21,18 +21,11 @@ jobs:  # Define the jobs that will run in this workflow
       with:  # Provide inputs to the action
         python-version: ${{ matrix.python-version }}  # Use the Python version from the matrix
 
-    - name: Cache dependencies  # Step to cache pip dependencies
-      uses: actions/cache@v3  # Use the cache action
-      with:  # Provide inputs to the action
-        path: ~/.cache/pip  # Path to cache pip dependencies
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}  # Unique key for the cache based on OS and requirements file
-        restore-keys: |  # Keys to restore the cache if the primary key is not found
-          ${{ runner.os }}-pip-  # Fallback key based on OS
 
     - name: Install dependencies  # Step to install project dependencies
-      run: |  # Run the following commands in a shell to: Upgrade pip and setuptools, install dependencies from requirements.txt
+      run: |  # Run the following commands in a shell to: Upgrade pip and setuptools, install dependencies from requirements.txt without cashing
         python -m pip install --upgrade pip setuptools  
-        pip install -r requirements.txt  
+        pip install --no-cache-dir -r requirements.txt  
 
     - name: Lint with flake8  # Step to lint the code with flake8
       run: |  # Run the following commands in a shell to: Lint for specific error codes, show source, and show statistics; Lint with warnings for complexity and line length
