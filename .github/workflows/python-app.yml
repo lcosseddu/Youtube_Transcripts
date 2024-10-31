@@ -15,14 +15,14 @@ jobs:  # Define the jobs that will run in this workflow
         python-version: [3.8, 3.9, 3.10]  # Test against multiple Python versions
 
     steps:  # Define the steps to be executed in the job
-    - uses: actions/checkout@v2  # Check out the repository code
+    - uses: actions/checkout@v3  # Check out the repository code
     - name: Set up Python  # Step to set up Python
-      uses: actions/setup-python@v2  # Use the setup-python action
+      uses: actions/setup-python@v4  # Use the setup-python action
       with:  # Provide inputs to the action
         python-version: ${{ matrix.python-version }}  # Use the Python version from the matrix
 
     - name: Cache dependencies  # Step to cache pip dependencies
-      uses: actions/cache@v2  # Use the cache action
+      uses: actions/cache@v3  # Use the cache action
       with:  # Provide inputs to the action
         path: ~/.cache/pip  # Path to cache pip dependencies
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}  # Unique key for the cache based on OS and requirements file
