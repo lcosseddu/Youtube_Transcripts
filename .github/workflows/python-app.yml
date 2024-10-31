@@ -12,7 +12,7 @@ jobs:  # Define the jobs that will run in this workflow
 
     strategy:  # Define a strategy for running the job
       matrix:  # Use a matrix strategy to run the job with different configurations
-        python-version: [3.8, 3.9, 3.10]  # Test against multiple Python versions
+        python-version: [3.8.x, 3.9.x, 3.10.x]  # Test against multiple Python versions
 
     steps:  # Define the steps to be executed in the job
     - uses: actions/checkout@v3  # Check out the repository code
