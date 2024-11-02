@@ -1,0 +1,9 @@
+[flake8]
+# Set the maximum line length
+max-line-length = 127
+# Ignore line length errors and undefined names  
+ignore = E501, F821
+# Specify which error codes to check  
+select = E9,F63,F7,F82
+# Set the maximum complexity for functions  
+max-complexity = 10  
